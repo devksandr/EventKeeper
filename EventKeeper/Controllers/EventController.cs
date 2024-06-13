@@ -1,5 +1,5 @@
 ﻿using EventKeeper.Models.DTO;
-using EventKeeper.Services;
+using EventKeeper.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventKeeper.Controllers

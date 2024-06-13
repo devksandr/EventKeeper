@@ -1,6 +1,6 @@
 ﻿using EventKeeper.Models.DTO;
 
-namespace EventKeeper.Services
+namespace EventKeeper.Services.Interfaces
 {
     public interface IEventService
     {
