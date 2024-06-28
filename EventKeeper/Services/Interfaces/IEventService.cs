@@ -5,6 +5,6 @@ namespace EventKeeper.Services.Interfaces
     public interface IEventService
     {
         public bool AddEvent(AddEventDTORequest eventDTO);
-        public List<GetEventDTOResponse>? GetEvent(DateTime startRange, DateTime endRange);
+        public List<GetEventDTOResponse>? GetEvent(GetEventDTORequest eventDTO);
     }
 }

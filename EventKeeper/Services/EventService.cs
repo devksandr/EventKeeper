@@ -21,7 +21,7 @@ namespace EventKeeper.Services
             {
                 Name = eventDTO.Name,
                 Value = eventDTO.Value,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.UtcNow
             };
 
             try
@@ -37,12 +37,12 @@ namespace EventKeeper.Services
             return true;
         }
 
-        public List<GetEventDTOResponse>? GetEvent(DateTime startRange, DateTime endRange)
+        public List<GetEventDTOResponse>? GetEvent(GetEventDTORequest eventDTO)
         {
             var eventsDTO = new List<GetEventDTOResponse>();
 
-            DateTime startRangeRounded = _timeRoundService.RoundMinuteDown(startRange);
-            DateTime endRangeRounded = _timeRoundService.RoundMinuteUp(endRange);
+            DateTime startRangeRounded = _timeRoundService.RoundMinuteDown(eventDTO.StartRange);
+            DateTime endRangeRounded = _timeRoundService.RoundMinuteUp(eventDTO.EndRange);
 
             try
             {
@@ -55,8 +55,8 @@ namespace EventKeeper.Services
                     .GroupBy(fe => _timeRoundService.RoundMinuteDown(fe.Timestamp))
                     .Select(gfe => new GetEventDTOResponse
                     {
-                        StartRange = gfe.Key,
-                        EndRange = gfe.Key.AddMinutes(1),
+                        StartRange = eventDTO.ConvertToLocal ? gfe.Key.ToLocalTime() : gfe.Key,
+                        EndRange = eventDTO.ConvertToLocal ? gfe.Key.AddMinutes(1).ToLocalTime() : gfe.Key.AddMinutes(1),
                         ValueSum = gfe.Sum(e => e.Value)
                     })
                     .ToList();

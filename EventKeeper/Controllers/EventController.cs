@@ -28,9 +28,9 @@ namespace EventKeeper.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEvent(DateTime startRange, DateTime endRange)
+        public IActionResult GetEvent([FromQuery] GetEventDTORequest eventDTO)
         {
-            var events = _eventService.GetEvent(startRange, endRange);
+            var events = _eventService.GetEvent(eventDTO);
             if (events is null)
             {
                 return BadRequest();
