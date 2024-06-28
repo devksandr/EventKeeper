@@ -1,4 +1,5 @@
 ﻿using EventKeeper.Services.Interfaces;
+using System;
 
 namespace EventKeeper.Services
 {
@@ -14,10 +15,10 @@ namespace EventKeeper.Services
                 0,
                 date.Kind);
 
-        public DateTime RoundMinuteUp(DateTime date) => 
-            date
-                .AddMinutes(1)
-                .AddSeconds(-date.Second)
-                .AddMilliseconds(-date.Millisecond);
+        public DateTime RoundMinuteUp(DateTime date)
+        {
+            var ticksToWholeMinute = TimeSpan.TicksPerMinute - (date.Ticks % TimeSpan.TicksPerMinute);
+            return date.AddTicks(ticksToWholeMinute);
+        }
     }
 }
